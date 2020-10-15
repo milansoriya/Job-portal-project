@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      </style>
+    <style>
+
+ #wrapper {
+  overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+min-height: 100vh;
+margin-left: -15rem;
+-webkit-transition: margin .25s ease-out;
+-moz-transition: margin .25s ease-out;
+-o-transition: margin .25s ease-out;
+transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+padding: 0.875rem 1.25rem;
+font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+width: 15rem;
+}
+
+#page-content-wrapper {
+min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+margin-left: 0;
+}
+
+@media (min-width: 768px) {
+#sidebar-wrapper {
+  margin-left: 0;
+}
+
+#page-content-wrapper {
+  min-width: 0;
+  width: 100%;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: -15rem;
+}
+}
+
+    </style>
+</head>
+<body >
+
+<section id="nav-bar">    
+  <div class="w3-red">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#">Job Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"  id="navbarNav">
+          <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+            <li class="nav-item ">
+              <a class="nav-link" href="/home">HOME</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="#">ABOUT US</a>
+              </li>
+              
+            <li class="nav-item">
+              <a class="nav-link" href="/Company_logout" >Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/UserProfile">{{request.session.user_name}}</a>
+              </li>
+          </ul>
+        </div>
+      </nav>
+      </div>
+</section>
+
+<div class="d-flex" id="wrapper">
+
+
+<div class="bg-light border-right" id="sidebar-wrapper">
+  <div class="list-group list-group-flush">
+    <a href="/UserProfile" class="list-group-item list-group-item-action bg-light">Profile</a>
+    <a href="/UserjobApplications" class="list-group-item list-group-item-action bg-light">Posted Job Details</a>
+  </div>
+</div>
+
+<div id="page-content-wrapper">
+  <div class="container-fluid">
+    
+      <br><br><br>
+      <h4>Applied Jobs</h4>
+      <br>
+      <table style="width: 75%;" >
+        <tr >
+          <th>Sr No.</th>
+          <th>Company Name</th>
+          <th>Job Title</th>        
+          <th>Delete</th>
+        </tr>
+        {% for job in jobs %}
+        <tr >
+          <td style="height: 50px;">
+              {{forloop.counter}}
+          </td>
+          <td style="height: 50px;">
+            {{job.1.c_name}}
+          </td>
+          <td style="height: 50px;">
+            {{job.0.j_title}}
+          </td>
+          <td style="height: 50px;">
+            <a href="/deleteApplication/{{job.0.id}}">
+            <button class="w3-button w3-red w3-round-large" style="width: 100px;">Delete</button>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    <a href="/user_download_csv">Download csv</a>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

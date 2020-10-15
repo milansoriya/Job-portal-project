@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      </style>
+</head>
+<body>
+    <section id="nav-bar">    
+        <div class="w3-red">
+          <nav class="navbar navbar-expand-lg navbar-light ">
+              <a class="navbar-brand" href="#">Job Portal</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse"  id="navbarNav">
+                <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/home">HOME</span></a>
+                  </li>
+                  <li class="nav-item ">
+                      <a class="nav-link" href="#">ABOUT US</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/User_logout" >Logout</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" href="/UserProfile" >{{user.e_first_name}}</a>
+                    </li>
+                </ul>
+              </div>
+            </nav>
+            </div>
+      </section>
+      <div class="d-flex" id="wrapper">
+
+
+        <div class="bg-light border-right" id="sidebar-wrapper">
+          <div class="list-group list-group-flush">
+            <a href="/UserProfile" class="list-group-item list-group-item-action bg-light">Profile</a>
+            <a href="/UserjobApplications" class="list-group-item list-group-item-action bg-light">Applied Job Details</a>
+          </div>
+        </div>
+        
+      <table><tr><td style="width: 60%;">
+     
+      <div class="w3-row  w3-container" style="padding-top:50px; padding:50px; ">
+        <div class="w3-col w3-light-gray w3-left-align" >
+            <form action="/UserProfile" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+          <table style="width:100%;">
+            <tr>
+              <td style="width: 33%; height: 40px;">First Name:</td>
+              <td><input id="first_name" class="w3-input" type="text" name="first_name" value="{{user.e_first_name}}" placeholder="{{user.e_first_name}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Last Name:</td>
+              <td><input id="last_name" class="w3-input" type="text" name="last_name" value="{{user.e_last_name}}" placeholder="{{user.e_last_name}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">User Name:</td>
+              <td><input id="username" class="w3-input" type="text" name="username" value="{{user.e_username}}" placeholder="{{user.e_username}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Email:</td>
+              <td><input id="email" class="w3-input" type="Text" name="email" value="{{user.e_email}}" placeholder="{{user.e_email}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Mobile No:</td>
+              <td><input name="mobile_no" id="mobile_no" class="w3-input" type="text" value="{{user.e_mobileno}}" placeholder="{{user.e_mobileno}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Address:</td>
+              <td><input name="house_no" id="house_no" class="w3-input" type="text" value="{{user.e_add1}}" placeholder="{{user.e_add1}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">City:</td>
+              <td><input name="city" id="city" class="w3-input" type="text" value="{{user.e_city}}" placeholder="{{user.e_city}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">State:</td>
+              <td><input name="state" id="state" class="w3-input" type="text" value="{{user.e_state}}" placeholder="{{user.e_state}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Country:</td>
+              <td><input name="country" id="country" class="w3-input" type="text" value="{{user.e_country}}" placeholder="{{user.e_country}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Qualification:</td>
+              <td><input name="qualification" id="qualification" class="w3-input" type="text" value="{{user.e_qualification}}" placeholder="{{user.e_qualification}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Resume:</td>
+              <td> <input name="user_resume" id="user_resume" class="w3-input" type="file" ></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Profile:</td>
+              <td><input name="user_image" id="user_image" class="w3-input" type="file" accept="image/*" ></td>
+            </tr>
+          </table>
+        </div>
+            <button class="btn my-2 my-sm-0 w3-blue" type="submit">Save</button>
+    </form>
+      </td><td style="padding: 5%;">
+        
+        <div class="w3-col w3-center"  >
+          <div class="w3-card-4 w3-center" style="width: 100%;" >
+            <ul class="w3-ul " >
+              <li><img src= "/media/{{user.e_image}} " style="border:solid; width:350px; height:300;" alt="avatar">
+               <div class="w3-container w3-center">
+                 <p>{{user.e_first_name}} {{user.e_last_name}}</p>
+               </div>
+               
+               </li>
+               <li><div class="w3-center" style="padding: 20px;">{{user.e_sort_description}}</div></li>
+           </ul>
+           </div>
+          </div>
+
+        </td>
+        </tr>
+      </table>
+      </div>
+</body>
+</html>

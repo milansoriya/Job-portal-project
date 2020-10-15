@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      </style>
+    <style>
+ #wrapper {
+  overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+min-height: 100vh;
+margin-left: -15rem;
+-webkit-transition: margin .25s ease-out;
+-moz-transition: margin .25s ease-out;
+-o-transition: margin .25s ease-out;
+transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+padding: 0.875rem 1.25rem;
+font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+width: 15rem;
+}
+
+#page-content-wrapper {
+min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+margin-left: 0;
+}
+
+@media (min-width: 768px) {
+#sidebar-wrapper {
+  margin-left: 0;
+}
+
+#page-content-wrapper {
+  min-width: 0;
+  width: 100%;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: -15rem;
+}
+}
+
+    </style>
+</head>
+<body >
+
+<section id="nav-bar">    
+  <div class="w3-red">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#">Job Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"  id="navbarNav">
+          <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+            <li class="nav-item ">
+              <a class="nav-link" href="/Company_home">HOME</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="#">ABOUT US</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="/AddJob">Post Job</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Company_logout" >Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Company_profile">{{request.session.company_name}}</a>
+              </li>
+          </ul>
+        </div>
+      </nav>
+      </div>
+</section>
+
+<div class="d-flex" id="wrapper">
+
+
+<div class="bg-light border-right" id="sidebar-wrapper">
+  <div class="list-group list-group-flush">
+    <a href="/Company_profile" class="list-group-item list-group-item-action bg-light">Profile</a>
+    <a href="/Company_jobApplications" class="list-group-item list-group-item-action bg-light">Posted Job Details</a>
+  </div>
+</div>
+
+<div id="page-content-wrapper">
+  <div class="container-fluid">
+    <h1 class="mt-4">{{company.c_name}}</h1>
+    <h6>{{company.c_full_description}}</h6>
+    <br><br><br>
+   <form action="/Company_profile" method="POST" enctype="multipart/form-data" > 
+    {% csrf_token %}
+    <table style="width: 40%;">
+      <tr>
+        <td style="width: 33%; height: 40px;">Company logo:</td>
+        <td><input name="c_logo" id="c_logo" class="w3-input" type="file" size="30px" accept="image/*" ></td>
+      </tr>
+      
+      <tr>
+        <td style="width: 33%; height: 40px;">Company Name:</td>
+        <td><input name="c_name" id="c_name" class="w3-input" type="text" value="{{company.c_name}}" placeholder="{{company.c_name}}" required></td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">User Name:</td>
+        <td><input name="c_username" id="c_username" class="w3-input" type="text" value="{{company.c_username}}" placeholder="{{company.c_username}}" required></td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Address:</td>
+        <td><input name="c_add1" id="c_add1" class="w3-input" type="text" value="{{company.c_add1}}" placeholder="{{company.c_add1}}" required></td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">City:</td>
+        <td><input name="c_city" id="c_city" class="w3-input" type="text" value="{{company.c_city}}" placeholder="{{company.c_city}}"  required></td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">State:</td>
+        <td><input name="c_state" id="c_state" class="w3-input" type="text" value="{{company.c_state}}" placeholder="{{company.c_state}}"  required></td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Country:</td>
+        <td><input name="c_country" id="c_country" class="w3-input" type="text" value="{{company.c_country}}" placeholder="{{company.c_country}}"  required></td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Contact:</td>
+        <td><input name="c_contact" id="c_contact" class="w3-input" type="text" value="{{company.c_contact}}" placeholder="{{company.c_contact}}"  required></td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Email:</td>
+        <td><input name="c_email" id="c_email" class="w3-input" type="email" value="{{company.c_email}}" placeholder="{{company.c_email}}"  required></td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Website:</td>
+        <td><input name="c_website" id="c_website" class="w3-input" type="text" value="{{company.c_website}}" placeholder="{{company.c_website}}"  required> </td>
+      </tr>
+    </table>
+    <button class="btn my-2 my-sm-0 w3-blue" type="submit">Save</button>
+  </div>
+</div>
+
+</div>
+
+</body>
+</html>

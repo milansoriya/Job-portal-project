@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      </style>
+    <style>
+ #wrapper {
+  overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+min-height: 100vh;
+margin-left: -15rem;
+-webkit-transition: margin .25s ease-out;
+-moz-transition: margin .25s ease-out;
+-o-transition: margin .25s ease-out;
+transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+padding: 0.875rem 1.25rem;
+font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+width: 15rem;
+}
+
+#page-content-wrapper {
+min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+margin-left: 0;
+}
+
+@media (min-width: 768px) {
+#sidebar-wrapper {
+  margin-left: 0;
+}
+
+#page-content-wrapper {
+  min-width: 0;
+  width: 100%;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: -15rem;
+}
+}
+
+    </style>
+</head>
+<body >
+
+<section id="nav-bar">    
+  <div class="w3-red">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#">Job Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"  id="navbarNav">
+          <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+            <li class="nav-item ">
+              <a class="nav-link" href="/Company_home">HOME</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="#">ABOUT US</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="/AddJob">Post Job</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Company_logout" >Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Company_profile">{{request.session.company_name}}</a>
+              </li>
+          </ul>
+        </div>
+      </nav>
+      </div>
+</section>
+
+<div class="d-flex" id="wrapper">
+
+
+<div class="bg-light border-right" id="sidebar-wrapper">
+  <div class="list-group list-group-flush">
+    <a href="/Company_profile" class="list-group-item list-group-item-action bg-light">Profile</a>
+    <a href="/Company_jobApplications" class="list-group-item list-group-item-action bg-light">Applications</a>
+    <a href="/posted_job" class="list-group-item list-group-item-action bg-light">Posted Job</a>
+  </div>
+</div>
+
+<div id="page-content-wrapper">
+  <div class="container-fluid">
+    <h1 class="mt-4">{{company.c_name}}</h1>
+    <h6>{{company.c_full_description}}</h6>
+    <br><br><br>
+    <table style="width: 40%;">
+      <tr>
+        <td style="width: 33%; height: 40px;">Company logo:</td>
+        <td><img src="/media/{{company.c_logo}}"></td>
+      </tr>
+      
+      <tr>
+        <td style="width: 33%; height: 40px;">Company Name:</td>
+        <td>{{company.c_name}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">User Name:</td>
+        <td>{{company.c_username}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Address:</td>
+        <td>{{company.c_add1}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">City:</td>
+        <td>{{company.c_city}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">State:</td>
+        <td>{{company.c_state}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Country:</td>
+        <td>{{company.c_country}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Contact:</td>
+        <td>{{company.c_contact}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Email:</td>
+        <td>{{company.c_email}}</td>
+      </tr>
+      <tr>
+        <td style="width: 33%; height: 40px;">Website:</td>
+        <td>{{company.c_website}}</td>
+      </tr>
+    </table>
+    <a href="/EditCompany_profile">
+      <button class="btn my-2 my-sm-0 w3-blue" type="submit">Edit Profile</button>
+    </a>
+  </div>
+</div>
+
+</div>
+
+</body>
+</html>

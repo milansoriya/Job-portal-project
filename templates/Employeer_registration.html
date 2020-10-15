@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Employee Registration</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="w3-container">  
+        <div class="w3-display-container w3-light-gray" style="height:650px;">
+            <div class="w3-container w3-red w3-padding">
+                <h3 class="w3-text-black w3-right-align">Registration Form </h3>
+            </div>
+            <div class="w3-container w3-padding">
+		<form class="w3-container" action="" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <label>Company Name</label>
+                            <input name="c_name" id="c_name" class="w3-input" type="text" size="30px" required>
+                        </td>
+                        <td colspan="2" style="padding-left: 60px;">
+                            <label>User Name</label>
+                            <input name="c_username" id="c_username" class="w3-input" type="text" size="30px" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label>Email</label>
+                            <input name="c_email" id="c_email" class="w3-input" type="email" size="30px" required>
+                        </td>
+                        <td colspan="2" style="padding-left: 60px;">
+                            <label>Contact</label>
+                            <input name="c_contact" id="c_contact" class="w3-input" type="text" size="30px" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" >
+                            <label>Website</label>
+                            <input name="c_website" id="c_website" class="w3-input" type="text" size="30px" required> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" >
+                            <label>Password</label>
+                            <input name="password1" id="password1" class="w3-input" type="password" size="30px" required>
+                        </td>
+                        <td colspan="2" style="padding-left: 60px;">
+                            <label>Confirm Password</label>
+                            <input name="password2" id="password2" class="w3-input" type="password" size="30px" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Office add.</label>
+                            <input name="c_add1" id="c_add1" class="w3-input" type="text" size="15px" required>
+                        </td>
+                        <td style="padding-left: 60px;">
+                            <label>City</label>
+                            <input name="c_city" id="c_city" class="w3-input" type="text" size="15px" required>
+                        </td>
+                        <td style="padding-left: 60px;">
+                            <label>State</label>
+                            <input name="c_state" id="c_state" class="w3-input" type="text" size="15px" required>
+                        </td>
+                        <td style="padding-left: 60px;">
+                            <label>Country</label>
+                            <input name="c_country" id="c_country" class="w3-input" type="text" size="15px" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <label>Full Description</label>
+                            <input name="c_full_description" id="c_full_description" class="w3-input" type="text" size="15px" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td  colspan="2">
+                            <label>Company logo</label>
+                            <input name="c_logo" id="c_logo" class="w3-input" type="file" size="30px" accept="image/*" required>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td style="padding-top: 20px;">
+                            <button class="w3-button w3-red">Register</button>
+                        </td>
+                    </tr>
+                </table>
+		</form>
+		<div class="w-full text-center p-t-27 p-b-239">
+			{% for message in messages %}
+        			<h3>{{message}}</h3>
+        		{% endfor %}
+		</div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

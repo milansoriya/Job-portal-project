@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+    <style>
+
+ #wrapper {
+  overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+min-height: 100vh;
+margin-left: -15rem;
+-webkit-transition: margin .25s ease-out;
+-moz-transition: margin .25s ease-out;
+-o-transition: margin .25s ease-out;
+transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+padding: 0.875rem 1.25rem;
+font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+width: 15rem;
+}
+
+#page-content-wrapper {
+min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+margin-left: 0;
+}
+
+@media (min-width: 768px) {
+#sidebar-wrapper {
+  margin-left: 0;
+}
+
+#page-content-wrapper {
+  min-width: 0;
+  width: 100%;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: -15rem;
+}
+}
+
+    </style>
+</head>
+<body >
+
+<section id="nav-bar">    
+  <div class="w3-red">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#">Job Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"  id="navbarNav">
+          <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+            <li class="nav-item ">
+              <a class="nav-link" href="/Company_home">HOME</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="#">ABOUT US</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="/AddJob">Post Job</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Company_logout" >Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Company_profile">{{request.session.company_name}}</a>
+              </li>
+          </ul>
+        </div>
+      </nav>
+      </div>
+</section>
+
+<div class="d-flex" id="wrapper">
+
+
+<div class="bg-light border-right" id="sidebar-wrapper">
+  <div class="list-group list-group-flush">
+    <a href="/Company_profile" class="list-group-item list-group-item-action bg-light">Profile</a>
+    <a href="/Company_jobApplications" class="list-group-item list-group-item-action bg-light">Applications</a>
+    <a href="/posted_job" class="list-group-item list-group-item-action bg-light">Posted Job</a>
+  </div>
+</div>
+
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        <form id="form_id" class="w3-container" action="/posted_job" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td colspan="2" style="padding-top:15px ;" >
+                        <label>Job Role</label>
+                        <input name="j_title" id="j_title" class="w3-input" type="text" size="30px" value="{{job.j_title}}" placeholder="{{job.j_title}}" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top:15px ;">
+                        <label>Job Location</label>
+                        <input name="j_location" id="j_location" class="w3-input" type="text" size="30px" value="{{job.j_location}}"  placeholder="{{job.j_location}}" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td  style="padding-top:15px ;">
+                        <label>Experience</label>
+                        <input name="j_experience" id="j_experience" class="w3-input" type="text" size="30px" value="{{job.j_experience}}"  placeholder="{{job.j_experience}}" required> 
+                    </td>
+                    <td  style="padding-left:15px; padding-top:15px ;" >
+                        <label>salary</label>
+                        <input name="j_salary" id="j_salary" class="w3-input" type="text" size="30px" value="{{job.j_salary}}" placeholder="{{job.j_salary}}" required> 
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-top:15px ;">
+                        <label>Type</label>
+                        <select id="j_type" name="j_type">
+                            {% if job.j_type == '1' %}
+                            <option value="Full Time" selected>Full Time</option>
+                            <option value="Part Time">Part Time</option>
+                            <option value="Internship">Internship</option>
+                            {% elif job.j_type == '2' %}
+                            <option value="Full Time">Full Time</option>
+                            <option value="Part Time" selected>Part Time</option>
+                            <option value="Internship">Internship</option>
+                            {% elif job.j_type == '3' %}
+                            <option value="Full Time">Full Time</option>
+                            <option value="Part Time">Part Time</option>
+                            <option value="Internship" selected>Internship</option>
+                            {% endif %}
+                            
+                          </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top:15px ;">
+                        <label>Job Description</label><br>
+                        <textarea rows="5" cols="75" name="j_sort_description" id="j_sort_description" placeholder="{{job.j_sort_description}}" >{{job.j_sort_description}}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top:15px ;">
+                        <label>Job Qualification</label><br>
+                        <textarea rows="5" cols="75" name="j_qualification" id="j_qualification" >{{qualification}}</textarea>
+                    </td>
+                </tr>
+                <tr >
+                    <td style="padding-top: 20px;">
+                        <button class="w3-button w3-red">Save</button>
+                    </td>
+                </tr>
+            </table>
+    </form>
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>

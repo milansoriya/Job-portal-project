@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search job</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body >
+
+<section id="nav-bar">    
+  <div class="w3-red">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#">Job Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"  id="navbarNav">
+          <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+            <li class="nav-item ">
+              <a class="nav-link" href="/Company_home">HOME</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="#">ABOUT US</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Company_logout" >Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Company_profile">{{request.session.company_name}}</a>
+              </li>
+          </ul>
+        </div>
+      </nav>
+      </div>
+</section>
+    
+<div class="w3-display-container " >
+  <div class="w3-display-container" style="height:100px;">
+  <div class="w3-display-middle">
+    <form action="{% url 'JobseekerList' %}" method="get">
+      <div class="w3-row-padding">
+        <div class="w3-third">
+          <input class="form-control mr-sm-2" size="30px" name="Qualification" type="search" placeholder="Qualification" aria-label="Search">
+        </div>
+        <div class="w3-third">
+          <input class="form-control mr-sm-2" size="30px" name="location" type="search" placeholder="location" aria-label="Search">
+        </div>
+        <div class="w3-third">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search Job Seeker</button>
+        </div>
+      </div>
+  </form>
+</div>
+</div>
+
+<div class="w3-container w3-red" style="padding: 30px;">
+  <div class="w3-center">
+  <h5>Result</h5>
+  </div>
+</div>
+
+<div class="w3-right">
+<form action="/sendAllMail" method="POST">
+  {% csrf_token %}
+  <select id="joblist" name="joblist">
+      {% for job in  jobs %}
+          <option value="{{job.j_title}}">{{job.j_title}}</option>
+      {% endfor %}    
+  </select>
+  <button class="w3-button w3-blue">Send Mail to all Candidate</button>
+</form>
+</div>
+
+<div class="w3-container " style="padding-bottom: 15px; padding-top: 15px; ">
+ <div class="w3-twothird">
+  <ul class="w3-ul w3-card-4 ">
+{% for user in object_list %}
+   <div class="w3-row">
+    <li class="w3-bar" >
+      <img src="/media/{{user.e_image}}" class="w3-bar-item w3-circle w3-hide-small" style="width:100px ; height: 100px;">
+      <div class="w3-bar-item" style="widows: 50px;">
+        <span class="w3-large"><a href="/UserDetail/{{user.id}}">{{user.e_first_name}} {{user.e_last_name}}</a></span><br>
+        <span><i class="fa fa-map-marker-alt" aria-hidden="true"></i> {{user.e_city}}</span><br>
+        <span>{{user.e_qualification}}</span><br>
+      </div>
+      <div class="w3-right">
+        <a href="/sendOneMail/{{user.id}}"> <button class="w3-button w3-blue">Send Mail</button></a>
+      </div>
+    </li>
+  </div>
+  <hr>
+{% empty %}
+    <h2>Sorry there is No job seekers of your preference</h2>
+{% endfor %}
+  
+</ul>
+</div>
+</div>
+
+</body>
+</html>

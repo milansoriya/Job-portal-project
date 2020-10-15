@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Add Job</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+</head>
+<body>
+    <div class="w3-container">  
+        <div class="w3-display-container w3-light-gray" style="height:650px;">
+            <div class="w3-container w3-red w3-padding">
+                <h3 class="w3-text-black w3-right-align">Enter New Job Detail</h3>
+            </div>
+            <div class="w3-container w3-padding">
+		<form id="form_id" class="w3-container" action="" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+                <table>
+                    <tr>
+                        <td colspan="2" >
+                            <label>Job Role</label>
+                            <input name="j_title" id="j_title" class="w3-input" type="text" size="30px" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" >
+                            <label>Job Location</label>
+                            <input name="j_location" id="j_location" class="w3-input" type="text" size="30px" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td  >
+                            <label>Experience</label>
+                            <input name="j_experience" id="j_experience" class="w3-input" type="text" size="30px" required> 
+                        </td>
+                        <td  style="padding-left:15px;">
+                            <label>salary</label>
+                            <input name="j_salary" id="j_salary" class="w3-input" type="text" size="30px" required> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <label>Type</label>
+                            <select id="j_type" name="j_type">
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                                <option value="Internship">Internship</option>
+                              </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label>Job Description</label><br>
+                            <textarea rows="5" cols="75" name="j_sort_description" id="j_sort_description"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label>Job Qualification</label><br>
+                            <textarea rows="5" cols="75" name="j_qualification" id="j_qualification"></textarea>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td style="padding-top: 20px;">
+                            <button class="w3-button w3-red">Register</button>
+                        </td>
+                    </tr>
+                </table>
+		</form>
+		<div class="w-full text-center p-t-27 p-b-239">
+			{% for message in messages %}
+        			<h3>{{message}}</h3>
+        		{% endfor %}
+		</div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

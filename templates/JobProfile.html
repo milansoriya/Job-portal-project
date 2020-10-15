@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Detail</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script>
+      function myFunction() {
+        location.replace("https://{{company.c_website}}")
+      }
+      </script>
+</head>
+<body>
+  <section id="nav-bar">    
+    <div class="w3-red">
+      <nav class="navbar navbar-expand-lg navbar-light ">
+          <a class="navbar-brand" href="#">Job Portal</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse"  id="navbarNav">
+            <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+              <li class="nav-item ">
+                <a class="nav-link" href="/home">HOME</span></a>
+              </li>
+              <li class="nav-item ">
+                  <a class="nav-link" href="#">ABOUT US</a>
+                </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/User_logout" >Logout</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/UserProfile">{{request.session.user_name}}</a>
+                </li>
+            </ul>
+          </div>
+        </nav>
+        </div>
+  
+  </section>
+
+ 
+      <div class="w3-container" style="padding:50px; padding-bottom: 25px; ">
+        <div class="w3-container">
+            <div class="w3-container w3-twothird">
+               <div class="w3-left align"> 
+                   <h4 class="w3-text-red">{{job.j_title}}</h4> 
+                   <hr>
+                   {% if job.j_type == '1' %}
+                   <h5>{{job.j_location}} ,Full-Time</h5> 
+                   {% elif job.j_type == '2' %}
+                   <h5>{{job.j_location}} ,Part-Time</h5> 
+                   {% elif job.j_type == '3' %}
+                   <h5>{{job.j_location}} ,Internship</h5>
+                   {% endif %}
+                   </div>
+            </div>
+            <div class="w3-container w3-third w3-left-align ">
+              <form action="" method="post" >  
+                {% csrf_token %}
+              <button class="w3-button w3-blue">Apply Now</button>
+              <br>
+              {% for message in messages %}
+                    <h3 style="color: red ;">{{message}}</h3>
+              {% endfor %}
+              </form>
+                <label onclick="myFunction()">for more information click here</label>
+            </div>
+        </div>
+      </div>
+
+
+      <div class="w3-container" style="padding: 50px; ">
+        <div class="w3-container">
+            <div class="w3-container w3-twothird">
+               <div class="w3-left align"> 
+                    <h3 class="w3-text-red">Company Description</h3>
+                    <hr>
+                    <p> {{company.c_full_description}}</p>
+                    <h3 class="w3-text-red">Job Description</h3>
+                    <hr>
+                    <h5 class="w3-text-black">Experience:</h5>{{job.j_experience}} year
+                    <h5 class="w3-text-black">Role:</h5>{{job.j_title}}
+                    <h5 class="w3-text-black">Location:</h5>{{job.j_location}}
+                    <h5 class="w3-text-black">Salary:</h5>{{job.j_salary}}
+                    <h5 class="w3-text-black">Qualification:</h5>
+                    <ul style="padding-left: 50px;">
+                    {% for q in qualification %}
+                    <li>{{q.jq_qualification}}</li>
+                    {% endfor %}
+                    </ul>
+
+
+                    <form action="" method="post" >  
+                      {% csrf_token %}
+                    <button class="w3-button w3-blue">Apply Now</button>
+                    <br>
+                    {% for message in messages %}
+                          <h3 style="color: red ;">{{message}}</h3>
+                    {% endfor %}
+                    </form>
+                
+               </div>
+            </div>
+            <div class="w3-container w3-third w3-center ">
+                <div class="w3-card-4">
+                    <img src="/media/{{company.c_logo}}" style="border:solid; width:350px; height:350;" alt="company logo">
+                    <div class="w3-container w3-center">
+                      <p>{{job.j_sort_description}}</p>
+                    </div>
+                  </div>
+            </div>
+        </div>
+      </div>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      </style>
+</head>
+<body>
+    <section id="nav-bar">    
+        <div class="w3-red">
+          <nav class="navbar navbar-expand-lg navbar-light ">
+              <a class="navbar-brand" href="#">Job Portal</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse"  id="navbarNav">
+                <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/home">HOME</span></a>
+                  </li>
+                  <li class="nav-item ">
+                      <a class="nav-link" href="#">ABOUT US</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/Company_logout" >Logout</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" href="/Company_profile" >{{user.}}</a>
+                    </li>
+                </ul>
+              </div>
+            </nav>
+            </div>
+      </section>
+
+      <div class="w3-row w3-container" style="padding-top:50px; padding:50px; border: solid;">
+        <div class="w3-col l8 s6 w3-light-gray w3-left-align">
+          <table style="width: 50%;">
+            <tr>
+              <td style="width: 33%; height: 40px;">First Name:</td>
+              <td>{{user.e_first_name}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Last Name:</td>
+              <td>{{user.e_last_name}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">User Name:</td>
+              <td>{{user.e_username}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Email:</td>
+              <td>{{user.e_email}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Mobile No:</td>
+              <td>{{user.e_mobileno}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Address:</td>
+              <td>{{user.e_add1}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">City:</td>
+              <td>{{user.e_city}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">State:</td>
+              <td>{{user.e_state}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Country:</td>
+              <td>{{user.e_country}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Qualification:</td>
+              <td>{{user.e_qualification}}</td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Resume:</td>
+              <td><a href="/media/{{user.e_resume}}">{{user.e_first_name}}'s Resume</a></td>
+            </tr>
+          </table>
+        </div>
+        <div class="w3-col l4 s6 w3-center" >
+            <div class="w3-card-4" >
+             <ul class="w3-ul" >
+               <li><img src= "/media/{{user.e_image}} " style="border:solid; width:350px; height:350;" alt="avatar">
+                <div class="w3-container w3-center">
+                  <p>{{user.e_first_name}} {{user.e_last_name}}</p>
+                </div>
+                
+                </li>
+                <li><div class="w3-center" style="padding: 20px;">{{user.e_sort_description}}</div></li>
+            </ul>
+            </div>
+    
+        </div>
+      </div>
+</body>
+</html>

@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+      body{
+        background-color: #eee;
+      }
+      .main-section{
+        padding:15px;
+        font-family: 'Barlow Condensed', sans-serif;
+      }
+      .section{
+        border-radius:5px;
+        background-color: #fff;
+      }
+      .section .fa{
+        font-size:17px;
+        margin-right: 5px;
+      }
+      .section:hover,.section:hover.section img{
+        box-shadow:1px 2px 24px 0px #000;
+        transition:0.5s;
+      }
+      .section h1{
+        margin:0px;
+        font-size:25px;
+        color:#8B95A5;
+      }
+      .section p{
+        margin:0px;
+        font-weight:500;
+        margin-bottom:40px;
+        letter-spacing: 1px;
+      }
+      .section img{
+        width:20%;
+        height:20%;
+        border-radius: 50%;
+        margin:20px 0px 10px 0px;
+      }
+      .user-detail{
+        background-color:#FCFDDB;
+        border-top:1px solid #d2d2d2;
+        padding: 5px 0px;
+        border-radius:0px 0px 5px 5px;
+      }
+      .user-detail h2{
+        font-size: 20px;
+        color:#a2a2a2;
+        font-weight:400;
+      }
+    </style>
+</head>
+<body >
+
+<section id="nav-bar">    
+  <div class="w3-red">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#">Job Portal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"  id="navbarNav">
+          <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+            <li class="nav-item ">
+              <a class="nav-link" href="/home">HOME</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="#">ABOUT US</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/User_logout" >Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/UserProfile">{{user.e_first_name}}</a>
+              </li>
+          </ul>
+        </div>
+      </nav>
+      </div>
+</section>
+
+<div class="w3-display-container " >
+  <img src="{% static 'images/bgimage1.jpg' %}" alt="Lights" style="width:100%">
+  <div class="w3-display-middle ">
+    <form action="{% url 'jobList' %}" method="get">
+      <div class="w3-row-padding">
+        <div class="w3-third">
+          <input class="form-control mr-sm-2 w3-animate-opacity" size="30px" name="title" type="search" placeholder="Job Title" aria-label="Search">
+        </div>
+        <div class="w3-third">
+          <input class="form-control mr-sm-2 w3-animate-opacity" size="30px" name="location" type="search" placeholder="location" aria-label="Search">
+        </div>
+        <div class="w3-third">
+          <button class="btn btn-outline-success my-2 my-sm-0 w3-animate-opacity" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search Job</button>
+        </div>
+      </div>
+  </form>
+</div>
+</div>
+
+
+  <h2 style=" text-align: center; padding-top: 30px; color: #007b5e;  margin-bottom: 50px;  text-transform: uppercase;">
+    Recenty uploded Jobs
+  </h2>
+ 
+<div class="container mt-5">
+	<div class="row">
+		<div class="col-lg-12 col-sm-12 col-12 main-section">
+			<div class="row text-center">
+{% for job in jobs %}  
+<div class="col-lg-4 col-sm-4 col-12 w3-animate-bottom" style="padding-top: 10px; padding-bottom: 10px;">
+  <div class="row-fluid section">
+    <div class="col-lg-12 col-sm-12 col-12">
+      <img src="media/{{job.1.c_logo}}" class="w3-circle" style="height:60px; width:60px">
+      <h1>{{job.1.c_name}}</h1>
+      <a href="jobs/{{job.0.id}}">
+      <p>{{job.0.j_title}}</p>
+      </a>
+    </div>
+    <div class="col-lg-12 col-sm-12 col-12">
+      <div class="row user-detail">
+        <div class="col-lg-6 col-sm-12 col-6 text-left">
+          <h2><i class="fa fa-map-marker-alt" aria-hidden="true"></i>{{job.0.j_location}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+
+<div class="w3-container w3-red" style="padding: 100px;">
+  
+    <div class="w3-container">
+      <div class="w3-container w3-half w3-left-align">
+        <h3>Milan Soriya</h3>
+         101 Shree Hari Apartment,<br>
+         Patidar Society,Alap Road,<br>
+         Morbi-363641,<br>
+         contact No:9574246555<br>
+      </div>
+      <div class="w3-container w3-half w3-right-align">
+        <h3>Manan Solanki</h3>
+        SAHAJANAND, 2-HASANWADI,<br>
+        DHARAM HALL,<br>
+        Rajkot-360002,<br>
+        contact No:9106181664<br>
+      </div>
+    </div>
+</div>
+
+</body>
+</html>

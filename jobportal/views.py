@@ -228,7 +228,7 @@ def Company_home(request):
         return redirect('/')
 
 def UserProfile(request):
-    if request.session.get('company_id'):
+    if request.session.get('user_id'):
         if request.method=="POST":
             user_image=request.FILES.get('user_image')
             user_resume=request.FILES.get('user_resume')

@@ -5,7 +5,7 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Edit User Profile</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
@@ -35,7 +35,7 @@
                     <a class="nav-link" href="/home">HOME</span></a>
                   </li>
                   <li class="nav-item ">
-                      <a class="nav-link" href="#">ABOUT US</a>
+                      <a class="nav-link" href="/about">ABOUT US</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/User_logout" >Logout</a>
@@ -104,6 +104,34 @@
             <tr>
               <td style="width: 33%; height: 40px;">Qualification:</td>
               <td><input name="qualification" id="qualification" class="w3-input" type="text" value="{{user.e_qualification}}" placeholder="{{user.e_qualification}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Experience:</td>
+              <td><input name="experience" id="experience" class="w3-input" type="text" value="{{user.e_experience}}" placeholder="{{user.e_experience}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Current Possition:</td>
+              <td><input name="current_role" id="current_role" class="w3-input" type="text" value="{{user.e_current_role}}" placeholder="{{user.e_current_role}}" required></td>
+            </tr>
+            <tr>
+              <td style="width: 33%; height: 40px;">Prefer Job Type:</td>
+              <td>
+              <select id="jobType" name="jobType">
+                {% if user.e_jobType == '1' %}
+                <option value="Full Time" selected>Full Time</option>
+                <option value="Part Time">Part Time</option>
+                <option value="Internship">Internship</option>
+                {% elif user.e_jobType == '2' %}
+                <option value="Full Time">Full Time</option>
+                <option value="Part Time" selected>Part Time</option>
+                <option value="Internship">Internship</option>
+                {% elif user.e_jobType == '3' %}
+                <option value="Full Time">Full Time</option>
+                <option value="Part Time">Part Time</option>
+                <option value="Internship" selected>Internship</option>
+                {% endif %}
+              </select>
+              </td>
             </tr>
             <tr>
               <td style="width: 33%; height: 40px;">Resume:</td>

@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User,auth
 from django.contrib.sessions.models import Session
 from django.core.files.storage import FileSystemStorage
+from django.http import JsonResponse
 from .models import User_Employee,User_Employeer
 # Create your views here.
 def login(request):
@@ -108,7 +109,14 @@ def Employee_registration(request):
         s_description=request.POST.get('s_description')
         user_image=request.FILES['user_image']
         user_resume=request.FILES['user_resume']
-
+        current_role=request.POST.get('current_role')
+        experience=request.POST.get('experience')
+        if request.POST.get('jobType')=='Full Time':
+            jobType='1'
+        elif request.POST.get('jobType')=='Part Time':
+            jobType='2'
+        elif request.POST.get('jobType')=='Internship':
+            jobType='3'
         
         if password1 == password2 :
             if User_Employee.objects.filter(e_username=username).exists():
@@ -134,6 +142,9 @@ def Employee_registration(request):
                                    e_state=state,
                                    e_country=country,
                                    e_qualification=qualification,
+                                   e_current_role=current_role,
+                                   e_experience=experience,
+                                   e_jobType=jobType,
                                    e_image=fs.url(filename),
                                    e_resume=fs1.url(filename1),
                                    e_sort_description=s_description )
@@ -146,6 +157,15 @@ def Employee_registration(request):
             return redirect('Employee_registration') 
         return redirect('/')       
     else:
+        #print("HIi")
+        if 'term' in request.GET:
+            #print("Hii in term")
+            qs=User_Employee.objects.filter(e_current_role__icontains=request.GET.get('term'))
+            roles=list()
+            for user in qs:
+                roles.append(user.e_current_role)
+            #print(roles)
+            return JsonResponse(roles,safe=False)
         return render(request,'Employee_registration.html')
 
 

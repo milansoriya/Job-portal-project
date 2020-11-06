@@ -1,6 +1,12 @@
 from django.db import models
 
 # Create your models here.
+JOB_TYPE = (
+    ('1', "Full time"),
+    ('2', "Part time"),
+    ('3', "Internship"),
+)
+
 class User_Employee(models.Model):
    
     e_first_name=models.CharField(max_length=100)
@@ -14,6 +20,9 @@ class User_Employee(models.Model):
     e_state=models.CharField(max_length=100)
     e_country=models.CharField(max_length=100)
     e_qualification=models.CharField(max_length=100)
+    e_current_role=models.CharField(max_length=100)
+    e_jobType=models.CharField(choices=JOB_TYPE, max_length=10)
+    e_experience=models.IntegerField() 
     e_image=models.ImageField(upload_to='pics/employee')
     e_resume=models.FileField(upload_to='resumes')
     e_sort_description=models.TextField()

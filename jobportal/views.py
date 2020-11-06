@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Job,JobQualification,JobApplication
+from .models import Job,JobQualification,JobApplication,JobSeekerList
 from accounts.models import User_Employeer,User_Employee
 from django.views.generic import  ListView
 from django.contrib import messages
@@ -8,8 +8,50 @@ from telusko import settings
 import csv
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
+from django.http import JsonResponse
+from django.core import serializers
 
-# Create your views here.
+def about(request):
+    if request.session.get('user_id') :
+        user_count=User_Employee.objects.all().count()
+        company_count=User_Employeer.objects.all().count()
+        job_count=Job.objects.all().count()
+        user_name=request.session.get('user_name')
+        context={
+            'user_count':user_count,
+            'company_count':company_count,
+            'job_count':job_count,
+            'user_name':user_name
+        }
+        return render(request,"about.html",context)
+    else:
+        return redirect('/')
+
+def about1(request):
+    if request.session.get('company_name') :
+        user_count=User_Employee.objects.all().count()
+        company_count=User_Employeer.objects.all().count()
+        job_count=Job.objects.all().count()
+        user_name=request.session.get('company_name')
+        context={
+            'user_count':user_count,
+            'company_count':company_count,
+            'job_count':job_count,
+            'user_name':user_name
+        }
+        return render(request,"about.html",context)
+    else:
+        return redirect('/')
+
+def auto_complete(request):
+    if 'term' in request.GET:
+        #print("Hii in term")
+        qs=User_Employee.objects.filter(e_current_role__icontains=request.GET.get('term'))
+        roles=list()
+        for user in qs:
+            roles.append(user.e_current_role)
+        #print(roles)
+        return JsonResponse(roles,safe=False)
 
 def jobFilter(request):
     if request.session.get('user_id'):
@@ -97,6 +139,77 @@ def jobFilter(request):
     else:
         return redirect('/')
 
+def jobseekerFilter(request):
+    if request.session.get('company_id'):
+        
+        jobType=request.GET.get('jobType')
+        Experience=request.GET.get('Experience')
+        current_role=request.GET.get('current_role')
+    
+        if Experience=='all':
+            min=-1
+            max=-1
+        elif Experience=='0to5':
+            min=0
+            max=5
+        elif Experience=='5to10':
+            min=5
+            max=10
+        elif Experience=='10to15':
+            min=10
+            max=15
+        elif Experience=='15to20':
+            min=15
+            max=20
+
+
+        if 'Qualification' in request.session:
+            Qualification=request.session['Qualification']
+      
+        if 'location' in request.session:
+            location=request.session['location']
+    
+        if Qualification!="" and location!="":
+            users=User_Employee.objects.filter(e_qualification=Qualification,e_city=location)
+        elif Qualification!="" and location=="":
+            users=User_Employee.objects.filter(e_qualification=Qualification)
+        elif Qualification=="" and location!="":
+            users=User_Employee.objects.filter(e_city=location) 
+        else:
+            users=User_Employee.objects.all()
+
+        users1=[]
+        for user in users:
+            if jobType=='0':
+                users1.append(user)
+            if user.e_jobType==jobType:
+                users1.append(user)
+    
+    
+        users2=[]
+        for user in users1:
+            if Experience=='all':
+                users2.append(user)
+            if user.e_experience >=min and user.e_experience<=max:
+                users2.append(user)
+    
+        users3=[]
+        for user in users2:
+            if current_role:
+                if user.e_current_role==current_role:
+                    users3.append(user)
+            else:
+                users3.append(user)
+    
+
+        fuser=users3
+        context={'object_list':fuser}
+        
+        
+        return render(request,'jobseekerList.html',context)
+    else:
+        return redirect('/')
+
 class jobListView(ListView):
     model = Job
     template_name = 'jobList.html'
@@ -132,7 +245,6 @@ class JobseekerListView(ListView):
         company=User_Employeer.objects.get(id=self.request.session.get('company_id'))
         jobs=Job.objects.filter(j_c_id_id=company)
         context['jobs'] = jobs
-
         return context
     
     def get_queryset(self): 
@@ -154,57 +266,54 @@ class JobseekerListView(ListView):
 
 def sendOneMail(request,id):
     if request.session.get('company_id'):
-        Qualification=request.session['Qualification']
-        location=request.session['location']
-        if Qualification!="" and location!="":
-            users=User_Employee.objects.filter(e_qualification=Qualification,e_city=location)
-        elif Qualification!="" and location=="":
-            users=User_Employee.objects.filter(e_qualification=Qualification)
-        elif Qualification=="" and location!="":
-            users=User_Employee.objects.filter(e_city=location) 
-        else:
-            users=User_Employee.objects.all()
+        
+        company=User_Employeer.objects.get(id=request.session.get('company_id'))
+        addlist=JobSeekerList.objects.filter(c_id_id=company.id)
+        users=[]
+        for u in addlist:
+            users.append(User_Employee.objects.get(id=u.e_id_id))
 
-        company=request.session['company_name']
         user=User_Employee.objects.get(id=id)
+        jobs=Job.objects.filter(j_c_id_id=company)
         #for user in users:
-        subject = "From JOB PORTAL"
-        msg = "Dear "+user.e_first_name+",\n  Greeting from "+company+"\n\n  Congratulations!! We are glad to inform you that you are shortlisted for interview process."
+        subject = "Regarding vacancy at "+company.c_name
+        msg = "Dear "+user.e_first_name+" "+user.e_last_name+",\n Greetings from "+company.c_name+" we have opening in following jobs kindly visit following link.\n"
+        
+        for  job in jobs:
+            msg=msg+job.j_title+":-http://127.0.0.1:8000/jobs/"+str(job.id)+" \n"
+        
+        msg=msg+"if you find it suitable reach out to us at "+company.c_email
         to = user.e_email
         res = send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])
         #print(res)
-        context={'object_list':users}
-        return render(request,"JobseekerList.html",context)
+        context={'users':users}
+        return render(request,"Employeer/interestList.html",context)
     else:
         return redirect('/')
 
 def sendAllMail(request):
     if request.session.get('company_id'):
-        Qualification=request.session['Qualification']
-        location=request.session['location']
-        jobtitle=request.POST.get('joblist')
-        if Qualification!="" and location!="":
-            users=User_Employee.objects.filter(e_qualification=Qualification,e_city=location)
-        elif Qualification!="" and location=="":
-            users=User_Employee.objects.filter(e_qualification=Qualification)
-        elif Qualification=="" and location!="":
-            users=User_Employee.objects.filter(e_city=location) 
-        else:
-            users=User_Employee.objects.all()
-
-        company=request.session['company_name']
+        company=User_Employeer.objects.get(id=request.session.get('company_id'))
+        addlist=JobSeekerList.objects.filter(c_id_id=company.id)
+        users=[]
+        for u in addlist:
+            users.append(User_Employee.objects.get(id=u.e_id_id))
     
+        jobs=Job.objects.filter(j_c_id_id=company)
+
         for user in users:
-            subject = "From JOB PORTAL"
-            msg = "Dear "+user.e_first_name+",\n  Greeting from "+company+"\n\n  Congratulations!! We are glad to inform you that you are shortlisted for interview process for "+jobtitle
+            subject = "Regarding vacancy at "+company.c_name
+            msg = "Dear "+user.e_first_name+" "+user.e_last_name+",\n Greetings from "+company.c_name+" we have opening in following jobs kindly visit following link.\n"
+        
+            for  job in jobs:
+                msg=msg+job.j_title+":-http://127.0.0.1:8000/jobs/"+str(job.id)+" \n"
+        
+            msg=msg+"if you find it suitable reach out to us at "+company.c_email
             to = user.e_email
             res = send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])
-    
-        company=User_Employeer.objects.get(id=request.session.get('company_id'))
-        jobs=Job.objects.filter(j_c_id_id=company)
-        
-        context={'object_list':users,'jobs':jobs}
-        return render(request,"JobseekerList.html",context)
+
+        context={'users':users}
+        return render(request,"Employeer/interestList.html",context)
     else:
         return redirect('/')
         
@@ -216,7 +325,10 @@ def home(request):
         for job in j:
             company=User_Employeer.objects.get(id=job.j_c_id_id)
             jobs.append([job,company])
-        return render(request,"home.html",{'jobs': jobs,'user':user})
+        user_count=User_Employee.objects.all().count()
+        company_count=User_Employeer.objects.all().count()
+        job_count=Job.objects.all().count()
+        return render(request,"home.html",{'jobs': jobs,'user':user,'user_count':user_count,'company_count':company_count,'job_count':job_count})
     else:
         return redirect('/')
 
@@ -250,6 +362,16 @@ def UserProfile(request):
             user.e_mobileno=request.POST.get('mobile_no')
             user.e_username=request.POST.get('username')
             user.e_qualification=request.POST.get('qualification')
+            user.e_current_role=request.POST.get('current_role')
+
+            if request.POST.get('jobType')=='Full Time':
+                user.e_jobType='1'
+            elif request.POST.get('jobType')=='Part Time':
+                user.e_jobType='2'
+            elif request.POST.get('jobType')=='Internship':
+                user.e_jobType='3'
+
+            user.e_experience=request.POST.get('experience')
             user.e_add1=request.POST.get('house_no')
             user.e_city=request.POST.get('city')
             user.e_state=request.POST.get('state')
@@ -583,5 +705,67 @@ def Edit_job(request):
             company=User_Employeer.objects.get(id=request.session.get('company_id'))
             jobs=Job.objects.filter(j_c_id_id=company)
             return render(request,"Employeer/posted_job.html",{'jobs':jobs})
+    else:
+        return redirect('/')
+
+def addintolist(request,id):
+    if request.session.get('company_id'):
+        q=""
+        q1=""
+        q = request.session.get('Qualification')
+        q1 = request.session.get('location') 
+        user=User_Employee.objects.get(id=id)
+        company=User_Employeer.objects.get(id=request.session.get('company_id'))
+        if JobSeekerList.objects.filter(e_id_id=user.id,c_id_id=company.id):
+            print("already added")
+        else:
+            addlist=JobSeekerList(e_id_id=user.id,c_id_id=company.id)
+            addlist.save()
+            #print("SAVE")
+        return redirect('/JobseekerList/?Qualification='+q+'&location='+q1)
+    else:
+        return redirect('/')
+
+def interestList(request):
+    if request.session.get('company_id'):
+        company=User_Employeer.objects.get(id=request.session.get('company_id'))
+        addlist=JobSeekerList.objects.filter(c_id_id=company.id)
+        users=[]
+        for u in addlist:
+            users.append(User_Employee.objects.get(id=u.e_id_id))
+        return render(request,"Employeer/interestList.html",{'users':users})
+    else:
+        return redirect('/')
+
+def removeFromList(request,id):
+    if request.session.get('company_id'):
+        company=User_Employeer.objects.get(id=request.session.get('company_id'))
+        addlist=JobSeekerList.objects.filter(c_id_id=company.id)
+        user=JobSeekerList.objects.get(e_id_id=id)
+        user.delete()
+        users=[]
+        for u in addlist:
+                users.append(User_Employee.objects.get(id=u.e_id_id))
+        return render(request,"Employeer/interestList.html",{'users':users})
+    else:
+        return redirect('/')
+
+def download_list(request):
+    if request.session.get('company_id'):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="Applications.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['Sr. No.','First Name','Last Name','User Name','Email','Mobile No.','Qualification','Address 1','City','State','Country'])
+
+        company=User_Employeer.objects.get(id=request.session.get('company_id'))
+        addlist=JobSeekerList.objects.filter(c_id_id=company.id)
+
+        i=1
+        for u in addlist:
+            jobseeker=User_Employee.objects.get(id=u.e_id_id)
+            writer.writerow([i,jobseeker.e_first_name,jobseeker.e_last_name,jobseeker.e_username,jobseeker.e_email,jobseeker.e_mobileno,jobseeker.e_qualification,jobseeker.e_add1,jobseeker.e_city,jobseeker.e_state,jobseeker.e_country])
+            i=i+1
+        return response
     else:
         return redirect('/')

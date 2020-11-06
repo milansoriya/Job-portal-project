@@ -4,10 +4,11 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Employee Registration</title>
+    <title>Job seeker Registration</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>    
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
@@ -16,7 +17,7 @@
 </head>
 <body>
     <div class="w3-container">  
-        <div class="w3-display-container w3-light-gray" style="height:650px;">
+        <div class="w3-display-container w3-light-gray" style="height:100%;">
             <div class="w3-container w3-red w3-padding">
                 <h3 class="w3-text-black w3-right-align">Registration Form </h3>
             </div>
@@ -62,6 +63,24 @@
                         <td colspan="2" style="padding-left: 60px;">
                             <label>Confirm Password</label>
                             <input name="password2" id="password2" class="w3-input" type="password" size="30px" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label>Current Job Role</label>
+                            <input name="current_role" id="current_role" class="w3-input" type="text" size="15px" required>
+                        </td>
+                        <td style="padding-left: 60px;">
+                            <label>Job Type</label><br>
+                            <select id="jobType" name="jobType">
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </td>
+                        <td style="padding-left: 60px;">
+                            <label>Experience</label>
+                            <input name="experience" id="experience" class="w3-input" type="text" size="15px" required>
                         </td>
                     </tr>
                     <tr>
@@ -114,5 +133,15 @@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#current_role").autocomplete({
+                source:  "{% url 'Employee_registration' %}",
+            });
+        });
+    </script>
 </body>
 </html>

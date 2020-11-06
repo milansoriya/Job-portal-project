@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style1.css' %}">
+	
+	<link rel="stylesheet" href="{% static 'css/custom-bs.css">
+    <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/line-icons/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+	
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+      body{
+        background-color: #eee;
+      }
+      .main-section{
+        padding:15px;
+        font-family: 'Barlow Condensed', sans-serif;
+      }
+      .section{
+        border-radius:5px;
+        background-color: #fff;
+      }
+      .section .fa{
+        font-size:17px;
+        margin-right: 5px;
+      }
+      .section:hover,.section:hover.section img{
+        box-shadow:1px 2px 24px 0px #000;
+        transition:0.5s;
+      }
+      .section h1{
+        margin:0px;
+        font-size:25px;
+        color:#8B95A5;
+      }
+      .section p{
+        margin:0px;
+        font-weight:500;
+        margin-bottom:40px;
+        letter-spacing: 1px;
+      }
+      .section img{
+        width:20%;
+        height:20%;
+        border-radius: 50%;
+        margin:20px 0px 10px 0px;
+      }
+      .user-detail{
+        background-color:#FCFDDB;
+        border-top:1px solid #d2d2d2;
+        padding: 5px 0px;
+        border-radius:0px 0px 5px 5px;
+      }
+      .user-detail h2{
+        font-size: 20px;
+        color:#a2a2a2;
+        font-weight:400;
+      }
+    </style>
+</head>
+<body id="top">
+<div id="overlayer"></div>
+  <div class="loader">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+    
+	
+	
+
+    <section id="nav-bar">    
+        <div class="w3-red">
+          <nav class="navbar navbar-expand-lg navbar-light ">
+              <a class="navbar-brand" href="#">Job Portal</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse"  id="navbarNav">
+                <ul class="navbar-nav ml-auto" style="background-color:#f44336;" > 
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/home">HOME</span></a>
+                  </li>
+                  <li class="nav-item ">
+                      <a class="nav-link" href="#">ABOUT US</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/User_logout" >Logout</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" href="/UserProfile" >{{user_name}}</a>
+                    </li>
+                </ul>
+              </div>
+            </nav>
+            </div>
+      </section>
+
+
+
+
+<section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url({% static 'images/bgimage1.jpg' %});">
+      <div class="container">
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-7 text-center">
+            <h2 class="section-title mb-2 text-white">JobPortal Site Stats</h2>
+           </div>
+        </div>
+        <div class="row pb-0 block__19738 section-counter">
+
+          <div class="col-12 col-md-4 col-lg-4 mb-5 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <strong class="number" data-number="{{user_count}}">0</strong>
+            </div>
+            <span class="caption">Candidates</span>
+          </div>
+
+          <div class="col-12 col-md-4 col-lg-4 mb-5 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <strong class="number" data-number="{{job_count}}">0</strong>
+            </div>
+            <span class="caption">Jobs Posted</span>
+          </div>
+
+          <div class="col-12 col-md-4 col-lg-4 mb-5 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <strong class="number" data-number="{{company_count}}">0</strong>
+            </div>
+            <span class="caption">Companies</span>
+          </div>
+
+            
+        </div>
+      </div>
+    </section>
+
+    <section class="site-section">
+        <div class="container">
+          <div class="row mb-5">
+            <div class="col-12 text-center" data-aos="fade">
+              <h2 class="section-title mb-3">Our Team</h2>
+            </div>
+          </div>
+  
+          <div class="row align-items-center block__69944">
+  
+            <div class="col-md-6">
+              <img src="{% static 'images/Milan.JPG' %}" alt="Image" class="img-fluid mb-4 rounded">
+            </div>
+  
+            <div class="col-md-6">
+              <h3>Milan Soriya</h3>
+              <p class="text-muted">Software Developer</p>
+              <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+              <div class="social mt-4">
+                <a href="#"><span class="icon-facebook"></span></a>
+                <a href="#"><span class="icon-twitter"></span></a>
+                <a href="#"><span class="icon-instagram"></span></a>
+                <a href="#"><span class="icon-linkedin"></span></a>
+              </div>
+            </div>
+  
+            <div class="col-md-6 order-md-2 ml-md-auto">
+              <img src="{% static 'images/Milan.JPG' %}" alt="Image" class="img-fluid mb-4 rounded">
+            </div>
+  
+            <div class="col-md-6">
+              <h3>Manan Solanki</h3>
+              <p class="text-muted">Software Developer</p>
+              <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+              <div class="social mt-4">
+                <a href="#"><span class="icon-facebook"></span></a>
+                <a href="#"><span class="icon-twitter"></span></a>
+                <a href="#"><span class="icon-instagram"></span></a>
+                <a href="#"><span class="icon-linkedin"></span></a>
+              </div>
+            </div>
+        </div>
+      </section>
+  
+
+
+<footer class="site-footer w3-red">
+<div class="w3-container " >
+  
+  <div class="row container-fluid">
+    <div class="w3-center col-12 col-md-4 mb-4 mb-md-0">
+      <h2 style="color: black;">Job Portal</h2>
+       Indeed strives to put job seekers first,
+       giving them free access to search for jobs,
+       post resumes, and research companies
+    </div>
+    <div class="w3-center col-12 col-md-4 mb-4 mb-md-0">
+      <h2 style="color: black;">Contact us</h2>
+      <ul class="list-unstyled">
+              <li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp; 266425<br></li>
+              <li><i class="far fa-envelope"></i>&nbsp; myjobportal@gmail.com</li>
+      </ul>   
+    </div>
+    <div class="w3-center col-12 col-md-4 mb-4 mb-md-0">
+      <h2 style="color: black;">Follow us</h2>
+        <div class="footer-social">
+              <a href="#"><span class="icon-facebook"></span></a>
+              <a href="#"><span class="icon-twitter"></span></a>
+              <a href="#"><span class="icon-instagram"></span></a>
+              <a href="#"><span class="icon-linkedin"></span></a>
+        </div>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- SCRIPTS -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/stickyfill.min.js' %}"></script>
+    <script src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    
+    <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    
+    <script src="{% static 'js/custom.js' %}"></script>
+
+</body>
+</html>

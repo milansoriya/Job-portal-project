@@ -25,3 +25,7 @@ class JobQualification(models.Model):
 class JobApplication(models.Model):
     j_id=models.ForeignKey(Job,on_delete=models.CASCADE)
     e_id=models.ForeignKey(User_Employee,on_delete=models.CASCADE)
+
+class JobSeekerList(models.Model):
+    e_id=models.ForeignKey(User_Employee,on_delete=models.CASCADE)
+    c_id=models.ForeignKey(User_Employeer,on_delete=models.CASCADE)

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     
@@ -30,7 +31,10 @@
               <a class="nav-link" href="/Company_home">HOME</span></a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">ABOUT US</a>
+                <a class="nav-link" href="/about1">ABOUT US</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="/AddJob">Post Job</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/Company_logout" >Logout</a>
@@ -69,16 +73,29 @@
   </div>
 </div>
 
-<div class="w3-right">
-<form action="/sendAllMail" method="POST">
-  {% csrf_token %}
-  <select id="joblist" name="joblist">
-      {% for job in  jobs %}
-          <option value="{{job.j_title}}">{{job.j_title}}</option>
-      {% endfor %}    
-  </select>
-  <button class="w3-button w3-blue">Send Mail to all Candidate</button>
-</form>
+<div class="w3-center">
+  <form action="/jobseekerFilter" method="GET">
+  
+    <label for="jobType" style="color: black;"><h5>Job Type:</h5></label>
+    <select name="jobType">
+      <option  value="0">---------</option>
+      <option  value="1">Full Time</option>
+      <option  value="2">Part Time</option>
+      <option  value="3">Internship</option>
+    </select>
+    <label for="Experience" style="color: black;"><h5>Experience:</h5></label>
+    <select name="Experience">
+      <option  value="all">---------</option>
+      <option  value="0to5">0-5 years</option>
+      <option  value="5to10">5-10 years</option>
+      <option  value="10to15">10-15 years</option>
+      <option  value="15to20">15-20 years</option>
+    </select>
+    <label for="Salary" style="color: black;"><h5>Current Role:</h5></label>
+    <input class="mr-sm-2"  id="current_role" name="current_role" type="text">
+    
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Filter</button>
+  </form>
 </div>
 
 <div class="w3-container " style="padding-bottom: 15px; padding-top: 15px; ">
@@ -94,7 +111,8 @@
         <span>{{user.e_qualification}}</span><br>
       </div>
       <div class="w3-right">
-        <a href="/sendOneMail/{{user.id}}"> <button class="w3-button w3-blue">Send Mail</button></a>
+        
+        <a href="/addintolist/{{user.id}}"> <button class="w3-button w3-blue">Add To List</button></a>
       </div>
     </li>
   </div>
@@ -106,6 +124,14 @@
 </ul>
 </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $(function () {
+      $("#current_role").autocomplete({
+          source:  "{% url 'auto_complete' %}",
+      });
+  });
+</script>
 </body>
 </html>

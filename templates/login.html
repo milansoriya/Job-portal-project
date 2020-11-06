@@ -5,6 +5,7 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
@@ -31,10 +32,16 @@
                 <label>Password</label>
                 <input class="w3-input" type="password" name="password" id="password" size="40" required></p>
                 <p>
-                    <input type="radio" id="employee" name="login_as" value="employee">
+                  <div class="row">
+                    <div class="col-sm-6">
+                    <input type="radio" id="employee" name="login_as" value="employee" required>
                     <label for="employee">Job Seeker</label>
-                    <input type="radio" id="employer" name="login_as" value="employer">
+                   </div>
+                   <div class="col-sm-6">
+                    <input type="radio" id="employer" name="login_as" value="employer" required>
                     <label for="employer">Employer</label>
+                    </div>
+                  </div>
                 </p>
               <button class="w3-btn w3-red">Login</button>
 		<div class="w-full text-center p-t-27 p-b-239">
